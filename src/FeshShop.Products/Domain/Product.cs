@@ -1,8 +1,10 @@
 ﻿namespace FeshShop.Products.Domain
 {
+    using FeshShop.Common.Mongo.Attributes;
     using FeshShop.Common.Types;
     using System;
 
+    [BsonCollection("products")]
     public class Product : BaseEntity
     {
         public Product(Guid id, string name, string description, string vendor, decimal price, int quantity)
