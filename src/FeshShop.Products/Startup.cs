@@ -1,13 +1,17 @@
 namespace FeshShop.Products
 {
+    using FeshShop.Common;
     using FeshShop.Common.Mongo;
     using FeshShop.Common.Mongo.Contracts;
     using FeshShop.Common.Mvc;
+    using FeshShop.Products.Domain;
+    using FeshShop.Products.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using System.Reflection;
 
     public class Startup
     {
@@ -22,6 +26,7 @@ namespace FeshShop.Products
         {
             services.AddInitializers(typeof(IMongoDbInitializer))
                 .AddMongoDatabase(this.Configuration)
+                .AddScoped(typeof(IMongoRepository<Product>), typeof(MongoRepository<Product>))
                 .AddCors(options =>
                 {
                     options.AddPolicy(CorsPolicy, cors =>
@@ -30,10 +35,12 @@ namespace FeshShop.Products
                                 .AllowAnyHeader()
                                 .WithExposedHeaders(Headers));
                 })
-            .AddControllers();
+                .AddServices(Assembly.GetExecutingAssembly())
+                .AddControllers()
+                .AddNewtonsoftJson();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStartupInitializer startupInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -46,6 +53,8 @@ namespace FeshShop.Products
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+
+            startupInitializer.InitializeAsync();
         }
     }
 }

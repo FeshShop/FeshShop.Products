@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.20" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\FeshShop.Common\src\FeshShop.Common\FeshShop.Common.csproj" />
   </ItemGroup>
 
