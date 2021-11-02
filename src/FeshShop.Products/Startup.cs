@@ -1,11 +1,11 @@
 namespace FeshShop.Products
 {
     using FeshShop.Common;
+    using FeshShop.Common.Mediator;
     using FeshShop.Common.Mongo;
     using FeshShop.Common.Mongo.Contracts;
     using FeshShop.Common.Mvc;
     using FeshShop.Products.Domain;
-    using FeshShop.Products.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -27,6 +27,8 @@ namespace FeshShop.Products
             services.AddInitializers(typeof(IMongoDbInitializer))
                 .AddMongoDatabase(this.Configuration)
                 .AddScoped(typeof(IMongoRepository<Product>), typeof(MongoRepository<Product>))
+                .AddServices(Assembly.GetExecutingAssembly())
+                .AddMediator()
                 .AddCors(options =>
                 {
                     options.AddPolicy(CorsPolicy, cors =>
@@ -34,8 +36,7 @@ namespace FeshShop.Products
                                 .AllowAnyMethod()
                                 .AllowAnyHeader()
                                 .WithExposedHeaders(Headers));
-                })
-                .AddServices(Assembly.GetExecutingAssembly())
+                })                
                 .AddControllers()
                 .AddNewtonsoftJson();
         }
