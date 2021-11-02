@@ -1,9 +1,10 @@
 ﻿namespace FeshShop.Products.Dto
 {
+    using FeshShop.Common.Mediator.Types;
     using Newtonsoft.Json;
     using System;
 
-    public class UpdateProductInputModel
+    public class UpdateProductInputModel : ICommand
     {
         [JsonConstructor]
         public UpdateProductInputModel(Guid id, string name, string description, string vendor, decimal price, int quantity)

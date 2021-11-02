@@ -1,41 +1,36 @@
 ﻿namespace FeshShop.Products.Controllers
 {
+    using FeshShop.Common.Mediator.Contracts;
     using FeshShop.Common.Mvc;
     using FeshShop.Products.Dto;
-    using FeshShop.Products.Services;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;
 
     public class ProductController : ApiController
     {
-        private readonly IProductService productService;
-
-        public ProductController(IProductService productService) => this.productService = productService;
+        public ProductController(IMediator mediator)
+            : base(mediator)
+        { }
 
         [HttpGet]
         [Route(nameof(GetById) + PathSeparator + Id)]
-        public async Task<ActionResult<GetProductViewModel>> GetById([FromRoute] Guid id)
-            => this.Single(await this.productService.GetProductByIdAsync(id));
-
+        public async Task<ActionResult<GetProductViewModel>> GetById([FromRoute] GetProductInputModel model)
+            => this.Single(await this.QueryAsync(model));
 
         [HttpPost]
         [Route(nameof(CreateProduct))]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductInputModel model)
-        {
-            model.BindId(x => x.Id);
-            await this.productService.CreateProductAsync(model);
-
-            return this.Accepted();
-        }
+            => await this.SendAsync(model.BindId(x => x.Id));
 
         [HttpPut]
         [Route(nameof(UpdateProduct) + PathSeparator + Id)]
         public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromBody] UpdateProductInputModel model)
-        {
-            await this.productService.UpdateProductAsync(id, model);
+            => await this.SendAsync(model.Bind(x => x.Id, id));
 
-            return this.Accepted();
-        }
+        [HttpDelete]
+        [Route(nameof(DeleteProduct))]
+        public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductInputModel model)
+            => await this.SendAsync(model);
     }
 }

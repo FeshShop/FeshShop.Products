@@ -1,10 +1,10 @@
-﻿using FeshShop.Common.Mongo.Contracts;
-using FeshShop.Products.Domain;
-using System;
-using System.Threading.Tasks;
-
-namespace FeshShop.Products.Repositories
+﻿namespace FeshShop.Products.Repositories
 {
+    using FeshShop.Common.Mongo.Contracts;
+    using FeshShop.Products.Domain;
+    using System;
+    using System.Threading.Tasks;
+
     public class ProductRepository : IProductRepository
     {
         private readonly IMongoRepository<Product> mongoRepository;
@@ -19,5 +19,9 @@ namespace FeshShop.Products.Repositories
 
         public async Task<bool> ExistsAsync(string name) 
             => await this.mongoRepository.ExistsAsync(p => p.Name == name.ToLowerInvariant());
+
+        public async Task<bool> ExistsAsync(Guid id) => await this.mongoRepository.ExistsAsync(p => p.Id == id);
+
+        public async Task DeleteAsync(Guid id) => await this.mongoRepository.DeleteAsync(id);
     }
 }

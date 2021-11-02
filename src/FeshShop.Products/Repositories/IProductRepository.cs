@@ -13,5 +13,9 @@
         Task<bool> ExistsAsync(string name);
 
         Task UpdateAsync(Product product);
+
+        Task<bool> ExistsAsync(Guid id);
+
+        Task DeleteAsync(Guid id);
     }
 }
