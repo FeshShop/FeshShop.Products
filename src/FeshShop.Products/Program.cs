@@ -1,5 +1,6 @@
 namespace FeshShop.Products
 {
+    using FeshShop.Common.Logging;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
 
@@ -7,7 +8,7 @@ namespace FeshShop.Products
     {
         public static void Main(string[] args) 
             => Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(wb => wb.UseStartup<Startup>())
+                .ConfigureWebHostDefaults(wb => wb.UseStartup<Startup>().UseLogging())
                 .Build()
                 .Run();
     }
