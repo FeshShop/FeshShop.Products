@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  restire-and-build:
+  restore-and-build:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:3.1
     steps:
@@ -15,4 +15,9 @@ jobs:
 workflows:
   sample:    
     jobs:
-      - restire-and-build
+      - restore-and-build
+filters:
+      branches:
+        only:
+          - main
+          - dev
