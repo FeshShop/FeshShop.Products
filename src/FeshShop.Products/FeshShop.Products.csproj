@@ -13,7 +13,7 @@
 	  <ProjectReference Include="..\..\..\FeshShop.Common\src\FeshShop.Common\FeshShop.Common.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-	  <PackageReference Include="FeshShop.Common" Version="0.0.2" />
+	  <PackageReference Include="FeshShop.Common" Version="1.0.9" />
   </ItemGroup> 
 
 
