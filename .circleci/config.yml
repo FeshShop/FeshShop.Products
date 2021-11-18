@@ -15,9 +15,9 @@ jobs:
 workflows:
   sample:    
     jobs:
-      - restore-and-build
-filters:
-      branches:
-        only:
-          - main
-          - dev
+      - restore-and-build:
+        filters:
+          branches:
+            only:
+            - main
+            - dev
